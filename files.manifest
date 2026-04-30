@@ -12,5 +12,6 @@
 .config/bin/thermal-alert-mode.sh => .config/bin/thermal-alert-mode.sh
 .config/bin/thermal-alert-test.sh => .config/bin/thermal-alert-test.sh
 .config/bin/thermal-alert-test-loop.sh => .config/bin/thermal-alert-test-loop.sh
+.config/bin/desktop-healthcheck.sh => .config/bin/desktop-healthcheck.sh
 .zshrc => .zshrc
 .p10k.zsh => .p10k.zsh
