@@ -1,43 +1,43 @@
 # Dotfiles
 
-This repository tracks selected personal config files from `~/.config` and home shell files.
+Ce dépôt suit une sélection de fichiers de configuration personnels depuis `~/.config` et les fichiers shell du répertoire home.
 
-## Layout
+## Structure
 
-- `files/`: tracked copies of config files
-- `files.manifest`: mapping of tracked paths
-- `sync-from-system.sh`: copy current system config into `files/`
-- `install.sh`: symlink tracked files back into `$HOME` with automatic backup
+- `files/` : copies suivies des fichiers de configuration
+- `files.manifest` : correspondance des chemins suivis
+- `sync-from-system.sh` : copie la configuration système actuelle dans `files/`
+- `install.sh` : crée des liens symboliques des fichiers suivis dans `$HOME` avec sauvegarde automatique
 
-## Quick Start
+## Démarrage rapide
 
 ```bash
 cd ~/.config/dotfiles
 ./sync-from-system.sh
 git init
 git add .
-git commit -m "Initial dotfiles snapshot"
+git commit -m "Snapshot initial des dotfiles"
 ```
 
-## Update workflow
+## Flux de mise à jour
 
-1. Edit your real config files as usual.
-2. Run:
+1. Modifiez vos véritables fichiers de configuration comme d'habitude.
+2. Exécutez :
 
 ```bash
 ~/.config/dotfiles/sync-from-system.sh
 ```
 
-3. Commit changes:
+3. Validez les modifications :
 
 ```bash
-cd ~/.config/dotfiles && git add . && git commit -m "Update dotfiles"
+cd ~/.config/dotfiles && git add . && git commit -m "Mise à jour des dotfiles"
 ```
 
-## Restore workflow
+## Flux de restauration
 
 ```bash
 ~/.config/dotfiles/install.sh
 ```
 
-This script creates backups under `~/.config/dotfiles-backup/<timestamp>/` before creating symlinks.
+Ce script crée des sauvegardes sous `~/.config/dotfiles-backup/<timestamp>/` avant de créer les liens symboliques.
