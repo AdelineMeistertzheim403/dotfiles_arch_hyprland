@@ -1,0 +1,14 @@
+font=JetBrainsMono Nerd Font 12
+anchor=top-right
+margin=20,20,0,0
+padding=12
+border-radius=12
+max-visible=5
+
+
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#89b4fa
+progress-color=over #6c7086
+
+default-timeout=5000

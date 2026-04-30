@@ -1,0 +1,16 @@
+# source_relative_to_home => target_relative_to_home
+.config/hypr => .config/hypr
+.config/waybar => .config/waybar
+.config/mako/config => .config/mako/config
+.config/rofi/spotlight.rasi => .config/rofi/spotlight.rasi
+.config/kitty/kitty.conf => .config/kitty/kitty.conf
+.config/systemd/user/waybar.service => .config/systemd/user/waybar.service
+.config/systemd/user/thermal-alert.service => .config/systemd/user/thermal-alert.service
+.config/thermal-alert.conf => .config/thermal-alert.conf
+.config/bin/wbfix => .config/bin/wbfix
+.config/bin/thermal-alert-daemon.sh => .config/bin/thermal-alert-daemon.sh
+.config/bin/thermal-alert-mode.sh => .config/bin/thermal-alert-mode.sh
+.config/bin/thermal-alert-test.sh => .config/bin/thermal-alert-test.sh
+.config/bin/thermal-alert-test-loop.sh => .config/bin/thermal-alert-test-loop.sh
+.zshrc => .zshrc
+.p10k.zsh => .p10k.zsh

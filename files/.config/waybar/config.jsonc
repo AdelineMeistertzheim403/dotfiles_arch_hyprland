@@ -1,0 +1,296 @@
+[
+  {
+    "name": "primary",
+    "output": ["eDP-1"],
+    "layer": "top",
+    "mode": "dock",
+    "position": "top",
+    "height": 30,
+    "margin-top": 2,
+    "margin-left": 2,
+    "margin-right": 2,
+    "margin-bottom": 5,
+    "spacing": 8,
+    "modules-left": [
+      "custom/launcher",
+      "cpu",
+      "memory",
+      "custom/window-name",
+      "custom/pacman-update",
+      "tray",
+      "custom/capslock"
+    ],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": [
+      "custom/numlock",
+      "custom/music",
+      "battery",
+      "backlight",
+      "pulseaudio",
+      "network",
+      "clock"
+    ],
+    "hyprland/workspaces": {
+      "all-outputs": true,
+      "active-only": false,
+      "on-click": "activate",
+      "format": "{icon}",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "format-icons": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "urgent": "",
+        "active": "",
+        "default": ""
+      }
+    },
+    "tray": {
+      "icon-size": 20,
+      "spacing": 8
+    },
+    "clock": {
+      "interval": 1,
+      "format": " <b>{:%H:%M:%S}</b>",
+      "format-alt": " <b>{:%d/%m/%Y}</b>",
+      "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+      "on-click-right": "mode"
+    },
+    "cpu": {
+      "interval": 5,
+      "format": " {usage}%",
+      "max-length": 10,
+      "tooltip": false
+    },
+    "memory": {
+      "interval": 30,
+      "format": " {used}GiB",
+      "format-alt": " {used:0.1f}G",
+      "max-length": 10
+    },
+    "backlight": {
+      "format": "{icon} {percent}",
+      "tooltip": false,
+      "format-icons": ["󰃚 ", "󰃛 ", "󰃜 ", "󰃝 ", "󰃞 ", "󰃟 ", "󰃠 "]
+    },
+    "network": {
+      "format-ethernet": "󰈀 {ifname}",
+      "format-wifi": " {essid}",
+      "format-disconnected": "󰖪",
+      "tooltip-format": "{ifname} via {gwaddr}",
+      "on-click": "nm-connection-editor",
+      "on-click-right": "kitty -e nmtui",
+      "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
+    },
+    "pulseaudio": {
+      "format": "{icon} <b>{volume}</b>",
+      "format-bluetooth": " <b>{volume}</b>",
+      "format-bluetooth-muted": " ",
+      "tooltip": false,
+      "scroll-step": 5,
+      "format-muted": " ",
+      "format-icons": {
+        "default": ["󰕿 ", "󰖀 ", "󰕾 "]
+      },
+      "on-click": "pavucontrol"
+    },
+    "battery": {
+      "bat": ["BAT1"],
+      "adapter": ["AC", "ACAD", "AC0"],
+      "interval": 30,
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{icon} {capacity}%",
+      "format-warning": " {capacity}%",
+      "format-critical": " {capacity}%",
+      "format-charging": " {capacity}%",
+      "format-plugged": " {capacity}%",
+      "format-alt": "{time} {icon}",
+      "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+      "tooltip": true,
+      "tooltip-format": "{timeTo} - {power}W"
+    },
+    "custom/launcher": {
+      "format": "",
+      "on-click": "rofi -show drun"
+    },
+    "custom/window-name": {
+      "format": "<b>{}</b>",
+      "interval": 2,
+      "exec": "hyprctl activewindow -j | jq -r '.class // \"Desktop\"' | cut -c1-20"
+    },
+    "custom/numlock": {
+      "exec": "~/.config/waybar/scripts/numlock.sh",
+      "interval": 3,
+      "tooltip": false
+    },
+    "custom/capslock": {
+      "exec": "~/.config/waybar/scripts/capslock.sh",
+      "interval": 3,
+      "tooltip": false
+    },
+    "custom/pacman-update": {
+      "format": "󰏔  {}",
+      "interval": 3600,
+      "exec": "$HOME/.config/waybar/scripts/checkupdates | wc -l",
+      "signal": 8
+    },
+    "custom/music": {
+      "format": "{}",
+      "exec": "$HOME/.config/waybar/scripts/caway",
+      "interval": 2,
+      "on-click": "playerctl play-pause"
+    }
+  },
+  {
+    "name": "secondary-focus",
+    "output": ["DP-4", "HDMI-A-1"],
+    "layer": "top",
+    "mode": "dock",
+    "position": "top",
+    "height": 26,
+    "margin-top": 2,
+    "margin-left": 2,
+    "margin-right": 2,
+    "margin-bottom": 5,
+    "spacing": 4,
+    "modules-left": [],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["clock"],
+    "hyprland/workspaces": {
+      "all-outputs": true,
+      "active-only": false,
+      "on-click": "activate",
+      "format": "{icon}",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "format-icons": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "urgent": "",
+        "active": "",
+        "default": ""
+      }
+    },
+    "clock": {
+      "interval": 1,
+      "format": " {:%H:%M}",
+      "format-alt": " {:%d/%m}",
+      "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+      "on-click-right": "mode"
+    },
+    "custom/launcher": {
+      "format": "",
+      "on-click": "rofi -show drun"
+    }
+  },
+  {
+    "name": "secondary-monitor",
+    "output": ["DP-2"],
+    "layer": "top",
+    "mode": "dock",
+    "position": "top",
+    "height": 26,
+    "margin-top": 2,
+    "margin-left": 2,
+    "margin-right": 2,
+    "margin-bottom": 5,
+    "spacing": 4,
+    "modules-left": ["cpu", "memory", "custom/cputemp", "custom/gputemp"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["custom/thermal-status", "pulseaudio", "network", "clock"],
+    "hyprland/workspaces": {
+      "all-outputs": true,
+      "active-only": false,
+      "on-click": "activate",
+      "format": "{icon}",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "format-icons": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "urgent": "",
+        "active": "",
+        "default": ""
+      }
+    },
+    "clock": {
+      "interval": 1,
+      "format": " {:%H:%M}",
+      "format-alt": " {:%d/%m}",
+      "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+      "on-click-right": "mode"
+    },
+    "cpu": {
+      "interval": 5,
+      "format": " {usage}%",
+      "max-length": 10,
+      "tooltip": false
+    },
+    "memory": {
+      "interval": 30,
+      "format": " {used:0.1f}G",
+      "max-length": 10,
+      "tooltip": false
+    },
+    "custom/cputemp": {
+      "exec": "$HOME/.config/waybar/scripts/cputemp.sh",
+      "interval": 5,
+      "return-type": "json",
+      "tooltip": false,
+      "on-click": "kitty -e sh -c 'watch -n1 sensors'",
+      "on-click-right": "kitty -e sh -c 'command -v btop >/dev/null && btop || htop'"
+    },
+    "custom/gputemp": {
+      "exec": "$HOME/.config/waybar/scripts/gputemp.sh",
+      "interval": 5,
+      "return-type": "json",
+      "tooltip": false,
+      "on-click": "kitty -e sh -c 'watch -n1 nvidia-smi || watch -n1 sensors'",
+      "on-click-right": "kitty -e sh -c 'command -v btop >/dev/null && btop || htop'"
+    },
+    "custom/thermal-status": {
+      "exec": "$HOME/.config/waybar/scripts/thermalstatus.sh",
+      "interval": 5,
+      "return-type": "json",
+      "tooltip": true,
+      "on-click": "kitty -e sh -c 'watch -n1 sensors'",
+      "on-click-right": "kitty -e sh -c 'command -v btop >/dev/null && btop || htop'"
+    },
+    "network": {
+      "format-ethernet": "󰈀",
+      "format-wifi": "{icon}",
+      "format-disconnected": "󰖪",
+      "tooltip-format": "{ifname} via {gwaddr}",
+      "on-click": "nm-connection-editor",
+      "on-click-right": "kitty -e nmtui",
+      "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
+    },
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-bluetooth": " {volume}%",
+      "format-bluetooth-muted": "",
+      "tooltip": false,
+      "scroll-step": 5,
+      "format-muted": "",
+      "format-icons": {
+        "default": ["󰕿 ", "󰖀 ", "󰕾 "]
+      },
+      "on-click": "pavucontrol"
+    }
+  }
+]

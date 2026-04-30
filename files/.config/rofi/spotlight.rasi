@@ -1,0 +1,58 @@
+/* =========================
+   Rofi – Spotlight Theme
+   ========================= */
+
+* {
+  font: "JetBrains Mono 12";
+  background: transparent;
+  text-color: #c0caf5;
+  border-color: #2a2c3a;
+  selected-normal-background: #23243a;
+  selected-normal-foreground: #ffffff;
+}
+
+/* Fenêtre principale */
+window {
+  width: 600px;
+  padding: 16px;
+  border: 1px;
+  border-radius: 14px;
+  border-color: @border-color;
+  background-color: #14151f;
+}
+
+/* Champ de recherche */
+entry {
+  padding: 10px 12px;
+  margin: 0px 0px 12px 0px;
+  border-radius: 10px;
+  background-color: #1a1b26;
+}
+
+/* Liste */
+listview {
+  spacing: 6px;
+  scrollbar: false;
+}
+
+/* Élément de la liste */
+element {
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+element selected {
+  background-color: @selected-normal-background;
+  text-color: @selected-normal-foreground;
+}
+
+/* Icône */
+element-icon {
+  size: 24px;
+  margin: 0px 10px 0px 0px;
+}
+
+/* Texte */
+element-text {
+  vertical-align: 0.5;
+}

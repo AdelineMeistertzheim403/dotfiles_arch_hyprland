@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+systemctl --user daemon-reload
+systemctl --user restart waybar.service
+sleep 0.3
+
+if systemctl --user --quiet is-active waybar.service; then
+  echo "waybar.service is active"
+else
+  echo "waybar.service is not active"
+fi
+
+journalctl --user -u waybar.service -n 40 --no-pager || true
