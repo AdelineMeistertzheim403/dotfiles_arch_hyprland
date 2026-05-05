@@ -13,5 +13,10 @@
 .config/bin/thermal-alert-test.sh => .config/bin/thermal-alert-test.sh
 .config/bin/thermal-alert-test-loop.sh => .config/bin/thermal-alert-test-loop.sh
 .config/bin/desktop-healthcheck.sh => .config/bin/desktop-healthcheck.sh
+.config/bin/hypr-focus-mode.sh => .config/bin/hypr-focus-mode.sh
+.config/bin/hypr-smart-layout.sh => .config/bin/hypr-smart-layout.sh
+.config/bin/hypr-app-router.sh => .config/bin/hypr-app-router.sh
+.config/quickshell/spotlight/shell.qml => .config/quickshell/spotlight/shell.qml
+.config/starship.toml => .config/starship.toml
 .zshrc => .zshrc
 .p10k.zsh => .p10k.zsh

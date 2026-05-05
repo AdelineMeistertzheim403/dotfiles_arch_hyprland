@@ -3,7 +3,17 @@ anchor=top-right
 margin=20,20,0,0
 padding=12
 border-radius=12
+border-size=2
 max-visible=5
+width=420
+height=110
+max-icon-size=48
+icons=1
+markup=1
+actions=1
+group-by=summary
+sort=-time
+history=1
 
 
 background-color=#1e1e2e
@@ -12,3 +22,19 @@ border-color=#89b4fa
 progress-color=over #6c7086
 
 default-timeout=5000
+
+on-button-left=invoke-default-action
+on-button-right=dismiss
+
+[urgency=low]
+default-timeout=3000
+border-color=#74c7ec
+
+[urgency=normal]
+default-timeout=5000
+border-color=#89b4fa
+
+[urgency=high]
+default-timeout=0
+border-color=#f38ba8
+background-color=#30202a
