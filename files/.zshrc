@@ -41,14 +41,11 @@ ZSH_DISABLE_COMPFIX=true
 # 6) Charger Oh My Zsh
 source "$ZSH/oh-my-zsh.sh"
 
-# 7) (Optionnel) Activer des plugins externes installés via pacman/AUR
-#    Vérifie les chemins selon ton système
-#    Autosuggestions
-if [[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+# 7) Plugins externes en fallback uniquement (évite les double-sources)
+if [[ -z "${_ZSH_AUTOSUGGEST_BIND_COUNTS+x}" ]] && [[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
   source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
-#    Syntax highlighting (toujours après les autres)
-if [[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+if ! (( ${+functions[_zsh_highlight]} )) && [[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
@@ -57,15 +54,19 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt hist_ignore_all_dups
+setopt hist_expire_dups_first
+setopt hist_find_no_dups
+setopt hist_ignore_space
+setopt hist_save_no_dups
 setopt hist_reduce_blanks
 setopt share_history
 setopt inc_append_history
+setopt extended_history
 
 # 9) Options pratiques
 setopt autocd           # cd implicite
 setopt correct          # correction légère des fautes de frappe
 setopt nocaseglob       # globbing insensible à la casse
-bindkey -e              # keymap Emacs par défaut
 
 # 10) Aliases utiles
 alias ll='ls -lah'
@@ -239,22 +240,48 @@ fi
 # Fast navigation with zoxide
 if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
-  alias cd="z"
+  alias j="z"
 fi
 
-# FZF integration if available
+# FZF integration (history + project jump)
 if command -v fzf &> /dev/null; then
-  # Ctrl+R for fuzzy command history
-  # Already enabled by default with fzf
-  
-  # Ctrl+T for file picker
-  # Already enabled by default with fzf
+  # Better Ctrl+R: fuzzy history with newest-first preview.
+  fzf-history-widget() {
+    local selected
+    selected=$(fc -rl 1 | sed 's/^ *[0-9]\+ *//' | awk '!seen[$0]++' | fzf --height=40% --layout=reverse --prompt='history> ')
+    if [[ -n "$selected" ]]; then
+      LBUFFER="$selected"
+      zle redisplay
+    fi
+  }
+  zle -N fzf-history-widget
+  bindkey '^R' fzf-history-widget
+
+  # Ctrl+G: fuzzy cd from common roots.
+  fzf-cd-widget() {
+    local target
+    target=$(find "$HOME/.config" "$HOME" -maxdepth 2 -type d 2>/dev/null | fzf --height=40% --layout=reverse --prompt='cd> ')
+    if [[ -n "$target" ]]; then
+      cd "$target" || return
+      zle reset-prompt
+    fi
+  }
+  zle -N fzf-cd-widget
+  bindkey '^G' fzf-cd-widget
 fi
 
 # ===== USEFUL UTILITIES =====
 
 # Show most used commands
 alias topcmd="history | cut -d' ' -f 7 | sort | uniq -c | sort -rn | head -15"
+
+# Measure interactive shell startup time quickly.
+zbench() {
+  local i
+  for i in {1..5}; do
+    /usr/bin/time -f '%E real' zsh -i -c exit >/dev/null
+  done
+}
 
 # Clear all caches
 alias cleancache="rm -rf ~/.cache/* && echo 'Cache cleared'"

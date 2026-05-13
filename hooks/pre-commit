@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+echo "[pre-commit] Validation shell config..."
+
+if [[ -f "files/.zshrc" ]]; then
+  zsh -n "files/.zshrc"
+fi
+
+if [[ -d "files/.config/bin" ]]; then
+  while IFS= read -r -d '' f; do
+    # Validate shell scripts only.
+    if head -n 1 "$f" | grep -Eq 'bash|zsh|sh'; then
+      bash -n "$f"
+    fi
+  done < <(find "files/.config/bin" -type f -print0)
+fi
+
+echo "[pre-commit] OK"
