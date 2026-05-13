@@ -135,3 +135,152 @@ alias dcheck-json="$HOME/.config/bin/desktop-healthcheck.sh --json"
 alias dcheck-notify="$HOME/.config/bin/desktop-healthcheck.sh --notify"
 alias dcheck-watch="watch -n 3 '$HOME/.config/bin/desktop-healthcheck.sh'"
 alias dcheck-watch-json="watch -n 3 '$HOME/.config/bin/desktop-healthcheck.sh --json | jq'"
+
+# ===== ADVANCED TERMINAL SETUP =====
+
+# 1) VI MODE - Keybindings Vim
+bindkey -v
+export KEYTIMEOUT=1
+
+# 2) VI Move between words with Alt+{b,f}
+bindkey "^[b" backward-word
+bindkey "^[f" forward-word
+
+# 3) Search in history with Vi mode
+bindkey -M vicmd "?" history-incremental-search-backward
+bindkey -M vicmd "/" history-incremental-search-forward
+
+# 4) Change cursor shape based on mode (for compatible terminals)
+function zle-keymap-select {
+  if [[ $KEYMAP == main ]]; then
+    echo -ne "\033[1 q"  # Block cursor in insert mode
+  elif [[ $KEYMAP == vicmd ]]; then
+    echo -ne "\033[2 q"  # Beam cursor in normal mode
+  fi
+}
+zle -N zle-keymap-select
+
+# 5) Init cursor shape on startup
+echo -ne "\033[1 q"
+
+# ===== USEFUL FUNCTIONS =====
+
+# Extract archives intelligently
+extract() {
+  if [[ -f "$1" ]]; then
+    case "$1" in
+      *.tar.bz2) tar xjf "$1" ;;
+      *.tar.gz) tar xzf "$1" ;;
+      *.bz2) bunzip2 "$1" ;;
+      *.rar) unrar x "$1" ;;
+      *.gz) gunzip "$1" ;;
+      *.tar) tar xf "$1" ;;
+      *.tbz2) tar xjf "$1" ;;
+      *.tgz) tar xzf "$1" ;;
+      *.zip) unzip "$1" ;;
+      *.Z) uncompress "$1" ;;
+      *.7z) 7z x "$1" ;;
+      *) echo "Unknown archive type: $1" ;;
+    esac
+  else
+    echo "File not found: $1"
+  fi
+}
+
+# Directory listing with colors
+lst() {
+  ls -lhAF --color=auto "$@"
+}
+
+# Quick file search
+qfind() {
+  find . -iname "*$1*" 2>/dev/null
+}
+
+# Show disk usage per directory
+dusage() {
+  du -sh */ | sort -hr | head -10
+}
+
+# Create and cd into directory
+mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+
+# Quick note taking
+qnote() {
+  echo "$(date '+%Y-%m-%d %H:%M:%S'): $*" >> "$HOME/.local/state/notes.log"
+  echo "✓ Note saved"
+}
+
+# ===== CLI TOOL ALIASES & REPLACEMENTS =====
+
+# Use 'cat' with fallback to syntax highlighting
+if command -v bat &> /dev/null; then
+  alias cat="bat --style=plain"
+  alias cath="bat"  # with syntax highlighting
+else
+  alias cat="/usr/bin/cat"
+fi
+
+# Use 'ls' replacement if available
+if command -v lsd &> /dev/null; then
+  alias ls="lsd --color=auto"
+  alias la="lsd -A"
+  alias ll="lsd -lh"
+  alias lla="lsd -lhA"
+fi
+
+# Grep with ripgrep (faster)
+if command -v rg &> /dev/null; then
+  alias grep="rg"
+fi
+
+# Fast navigation with zoxide
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+  alias cd="z"
+fi
+
+# FZF integration if available
+if command -v fzf &> /dev/null; then
+  # Ctrl+R for fuzzy command history
+  # Already enabled by default with fzf
+  
+  # Ctrl+T for file picker
+  # Already enabled by default with fzf
+fi
+
+# ===== USEFUL UTILITIES =====
+
+# Show most used commands
+alias topcmd="history | cut -d' ' -f 7 | sort | uniq -c | sort -rn | head -15"
+
+# Clear all caches
+alias cleancache="rm -rf ~/.cache/* && echo 'Cache cleared'"
+
+# Count files in directory
+alias countfiles="find . -type f | wc -l"
+
+# Compress a directory
+comp() {
+  tar -czf "$1.tar.gz" "$1" && echo "Compressed: $1.tar.gz"
+}
+
+# Quick markdown to HTML preview
+if command -v pandoc &> /dev/null; then
+  mdhtml() {
+    pandoc "$1" -o "${1%.md}.html" && echo "Generated: ${1%.md}.html"
+  }
+fi
+
+# ===== SYSTEM INFO =====
+
+# Show system uptime nicely
+alias uptime="uptime -p"
+
+# Show CPU info
+alias cpuinfo="lscpu | head -20"
+
+# Show mounted filesystems
+alias mounts="mount | grep -E '^/dev' | column -t"
