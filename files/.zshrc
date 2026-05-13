@@ -279,7 +279,13 @@ alias topcmd="history | cut -d' ' -f 7 | sort | uniq -c | sort -rn | head -15"
 zbench() {
   local i
   for i in {1..5}; do
-    /usr/bin/time -f '%E real' zsh -i -c exit >/dev/null
+    if command -v /usr/bin/time >/dev/null 2>&1; then
+      /usr/bin/time -f '%E real' zsh -i -c exit >/dev/null
+    elif command -v gtime >/dev/null 2>&1; then
+      gtime -f '%E real' zsh -i -c exit >/dev/null
+    else
+      time zsh -i -c exit >/dev/null
+    fi
   done
 }
 
